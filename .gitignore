@@ -1,0 +1,8 @@
+backlog.txt
+local_settings.py
+env/
+.vscode/
+.DS_store
+.pytest_cache/
+sandbox.py
+issues.txt
