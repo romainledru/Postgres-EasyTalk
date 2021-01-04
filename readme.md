@@ -10,9 +10,12 @@ I propose a new query system for postgres which allow to use it easily on automa
 
 ## What's in the box!
 
-- Multiple database query: work simultaneously with multiple database and make them interact together!
-- Static 'read-only-onces' code: Your next collegue can look at your database creation code 3 months ago and understand quickly how it is built.
-- User-entry checkpoint control: Find out bugs from the source and relax. Entries are ckeched and futures bugs are prevented. The tool will not allow an entry as easy as a direct basic database query.
+- Multiple database query
+    - work simultaneously with multiple database and make them interact together!
+- Static 'read-only-onces' code
+    - Your next collegue can look at your 7 months ago database creation code and understand quickly how it is built.
+- User-entry checkpoint control
+    - Find out bugs from the source and relax. Entries are ckeched and futures bugs are prevented. The tool will not allow an entry as easy as a direct basic database query.
 
 ## Postgresql query tools (in progress)
 
@@ -25,7 +28,7 @@ I propose a new query system for postgres which allow to use it easily on automa
 
 * Input
 
-'''python
+```python
 myTable = Table("table1")
 pattern = {
     'primary': False,
@@ -37,17 +40,19 @@ myTable.add_booleanField("BooleanEntry1")
 myTable.add_intField("IntEntry1")
 myTable.add_floatField("FloatEntry1")
 myTable.write_TABLE()
+```
 
 * Output
 
-'''python
+```python
 CREATE TABLE table1 (StrEntry1 varChar(58), BooleanEntry1 bool, IntEntry1 int, FloatEntry1 float, id int)
+```
 
 ### INSERT example
 
 * Input
 
-'''python
+```python
 insertQuery = Insert(myTable)
 entry = {
     'StrEntry1': 'hello',
@@ -56,11 +61,13 @@ entry = {
     'FloatEntry1': 35.65,
 }
 insertQuery.write_ENTRY(entry)
+```
 
 * Output
 
-'''python
+```python
 INSERT INTO table1 (StrEntry1, BooleanEntry1, IntEntry1, FloatEntry1, id) VALUES (hello, True, 45, 35.65, None)
+```
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
