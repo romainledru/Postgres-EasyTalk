@@ -6,3 +6,4 @@ env/
 .pytest_cache/
 sandbox.py
 issues.txt
+__pycache__/
