@@ -47,6 +47,8 @@ class Insert:
                 if key not in entry.keys():
                     raise CompulsoryEntry(key)
 
+    ## CONTAINER BUILD ##
+    
     def _createBuild(self, entry):
         containerBuild = {}
         for key in self.patron.keys():
