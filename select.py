@@ -2,7 +2,7 @@ from exceptions_raise import *
 from table import Table
 from insert import Insert
 
-class Select:
+class Read:
     def __init__(self, table):
         self.table = table
         if isinstance(self.table, Table):

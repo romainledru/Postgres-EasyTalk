@@ -56,7 +56,7 @@ class test_Insert:
 
 ### SELECT ###
 
-from select import Select
+from select import Read
 
 class test_Select:
 
@@ -66,7 +66,7 @@ class test_Select:
         t.add_intField('price')
         t.add_booleanField('buyORnot')
 
-        s = Select(t)
+        s = Read(t)
         p = {
             'name': 'jouet',
             'price': 35,
