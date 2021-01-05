@@ -30,7 +30,7 @@ class test_Table:
 
 from insert import Insert
 
-class test_Insertt:
+class test_Insert:
 
     def test_Insert(self):
         db = Table("table1")
@@ -52,4 +52,27 @@ class test_Insertt:
         output = insert.write_ENTRY(entry)
 
         answer = 'INSERT INTO table1 (varChar1, varChar2, bool1, int1, float1, id) VALUES (hello1, hello2, True, 35, 40.14, None)'
+        assert output == answer
+
+### SELECT ###
+
+from select import Select
+
+class test_Select:
+
+    def test_Select(self):
+        t = Table('tableTest')
+        t.add_varcharField('name')
+        t.add_intField('price')
+        t.add_booleanField('buyORnot')
+
+        s = Select(t)
+        p = {
+            'name': 'jouet',
+            'price': 35,
+        }
+        l = ['name', 'buyORnot']
+        output = s.find_filter(p, l)
+
+        answer = "SELECT name, buyORnot FROM tableTest WHERE (name='jouet') AND (price=35)"
         assert output == answer
