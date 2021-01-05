@@ -23,7 +23,7 @@ class test_Table:
         db.add_floatField("float1")
         output = db.write_TABLE()
 
-        answer = 'CREATE TABLE table1 (varChar1 VARCHAR(255), varChar2 VARCHAR(50), bool1 BOOLEAN, int1 INT, float1 REAL, id INT)'
+        answer = 'CREATE TABLE table1 (varChar1 VARCHAR(255), varChar2 VARCHAR(50), bool1 BOOLEAN, int1 INT, float1 REAL, id INT);'
         assert output == answer
     
 ### INSERT ###
@@ -51,7 +51,7 @@ class test_Insert:
         }
         output = insert.write_ENTRY(entry)
 
-        answer = 'INSERT INTO table1 (varChar1, varChar2, bool1, int1, float1, id) VALUES (hello1, hello2, True, 35, 40.14, None)'
+        answer = 'INSERT INTO table1 (varChar1, varChar2, bool1, int1, float1, id) VALUES (hello1, hello2, True, 35, 40.14, None);'
         assert output == answer
 
 ### SELECT ###
@@ -74,5 +74,5 @@ class test_Select:
         l = ['name', 'buyORnot']
         output = s.find_filter(p, l)
 
-        answer = "SELECT name, buyORnot FROM tableTest WHERE (name='jouet') AND (price=35)"
+        answer = "SELECT name, buyORnot FROM tableTest WHERE (name='jouet') AND (price=35);"
         assert output == answer
