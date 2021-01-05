@@ -132,9 +132,14 @@ class Table:
         attr = ''
         attrs = ['bool', 'int', 'float']
         if self.patron[key]['type'].__name__ == 'str':
-            attr = 'varChar({})'.format(self.patron[key]['length'])
-        elif self.patron[key]['type'].__name__ in attrs:
-            attr = self.patron[key]['type'].__name__
+            attr = 'VARCHAR({})'.format(self.patron[key]['length'])
+        elif self.patron[key]['type'].__name__ == 'bool':
+            attr = 'BOOLEAN'
+        elif self.patron[key]['type'].__name__ == 'int':
+            attr = 'INT'
+        elif self.patron[key]['type'].__name__ == 'float':
+            attr = 'REAL'
+            #attr = self.patron[key]['type'].__name__
         else:
             raise TypeError("\n\n***{}*** -> has a wrong Type !\n\n".format(key))
         return attr

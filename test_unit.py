@@ -23,7 +23,7 @@ class test_Table:
         db.add_floatField("float1")
         output = db.write_TABLE()
 
-        answer = 'CREATE TABLE table1 (varChar1 varChar(255), varChar2 varChar(50), bool1 bool, int1 int, float1 float, id int)'
+        answer = 'CREATE TABLE table1 (varChar1 VARCHAR(255), varChar2 VARCHAR(50), bool1 BOOLEAN, int1 INT, float1 REAL, id INT)'
         assert output == answer
     
 ### INSERT ###
