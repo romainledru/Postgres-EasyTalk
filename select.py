@@ -93,5 +93,5 @@ class Read:
             phrase = phrase[:-5] # Delete the 'END'
         else: # No for loop occurs -> delete the 'WHERE'
             phrase = phrase[:-7]
-
+        phrase += ';'
         return phrase

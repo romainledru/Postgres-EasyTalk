@@ -48,7 +48,7 @@ class Insert:
                     raise CompulsoryEntry(key)
 
     ## CONTAINER BUILD ##
-    
+
     def _createBuild(self, entry):
         containerBuild = {}
         for key in self.patron.keys():
@@ -78,5 +78,5 @@ class Insert:
             phrase += ', '
         phrase = phrase[:-2]
         phrase += ')'
-    
+        phrase += ';'
         return phrase

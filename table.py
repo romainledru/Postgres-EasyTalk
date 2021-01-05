@@ -183,5 +183,5 @@ class Table:
             phrase += ', '
         phrase = phrase [:-2]
         phrase += ')'
-        
+        phrase += ';'
         return phrase
