@@ -5,7 +5,7 @@ class Table:
 
     def __init__(self,db_name):
 
-        self.db_name = db_name
+        self.db_name = 'public.' + db_name # related to postgresql
 
         self._tableCheck = self._tableCheck() # list of all tables already existing
         if self.db_name not in self._tableCheck:
@@ -174,7 +174,7 @@ class Table:
 
     def write_TABLE(self):
         self._checkIdKeyExist(self.patron)
-        phrase = "CREATE TABLE {} (".format(self.db_name)
+        phrase = "CREATE TABLE {} (".format(self.db_name[7:]) # except 'public.'
         for key in self.patron:
             phrase += key
             phrase += ' '
