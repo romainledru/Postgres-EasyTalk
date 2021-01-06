@@ -46,7 +46,7 @@ myTable.write_TABLE()
 * Output
 
 ```python
-CREATE TABLE table1 (StrEntry1 varChar(58), BooleanEntry1 bool, IntEntry1 int, FloatEntry1 float, id int)
+CREATE TABLE table1 (StrEntry1 VARCHAR(58), BooleanEntry1 BOOLEAN, IntEntry1 INT, FloatEntry1 REAL, id INT);
 ```
 
 ### INSERT example
@@ -67,7 +67,7 @@ insertQuery.write_ENTRY(entry)
 * Output
 
 ```python
-INSERT INTO table1 (StrEntry1, BooleanEntry1, IntEntry1, FloatEntry1, id) VALUES (hello, True, 45, 35.65, None)
+INSERT INTO table1 (StrEntry1, BooleanEntry1, IntEntry1, FloatEntry1) VALUES (hello, True, 45, 35.65);
 ```
 
 ## Contributing
