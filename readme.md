@@ -21,6 +21,7 @@ I propose a new query system for postgres which allow to use it easily on automa
 
 - CREATE
 - INSERT
+- SELECT
 
 ## INPUT / OUTPUT EXAMPLE
 
