@@ -180,6 +180,10 @@ class Table:
             phrase += ' '
             typeFormat = self._typeFormat(key)
             phrase += typeFormat
+            if self.patron[key]['compulsory']: # compulsory attrs
+                phrase += ' NOT NULL'
+            if self.patron[key]['primary']: # primary attrs
+                phrase += ' PRIMARY KEY'
             phrase += ', '
         phrase = phrase [:-2]
         phrase += ')'
