@@ -5,12 +5,26 @@ from local_settings import *
 class Manager:
     def __init__(self, db):
         self.db = db
-        con = psycopg2.connect(host = 'localhost',
+
+        self.connect = psycopg2.connect(host = 'localhost',
             database = self.db,
             user = 'postgres',
             password = "postgres")
+        
+        self.cursor = connect.cursor()
 
+    def interact_up(self, phrase):
+        self.cursor.execute(phrase)
+        self.cursor.commit()
 
+    def interact_down(self, phrase):
+        self.cursor.execute(phrase)
+        answer = self.cursor.fetchall()
+        return answer
+    
+    def shutdown_manager(self):
+        self.cursor.close()
+        self.connect.close()
 
 
 
