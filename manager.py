@@ -6,10 +6,10 @@ class Manager:
     def __init__(self, db):
         self.db = db
 
-        self.connect = psycopg2.connect(host = 'localhost',
+        self.connect = psycopg2.connect(host = local_set['host'],
             database = self.db,
-            user = 'postgres',
-            password = "postgres")
+            user = local_set['user'],
+            password = local_set['password'])
         
         self.cursor = connect.cursor()
 
