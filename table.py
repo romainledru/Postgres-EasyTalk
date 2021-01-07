@@ -1,6 +1,7 @@
 from exceptions_raise import *
 from manager import Manager
 from local_settings import *
+import datetime
 
 class Table:
 
@@ -68,6 +69,10 @@ class Table:
             pattern['primary'] = False
         elif answer[row][2] == 'integer':
             pattern['type'] = int
+        elif answer[row][2] == 'timestamp with time zone':
+            pattern['type'] = datetime.datetime
+        # TODO ADD datetime ('timestamp with time zone')
+
         # TODO add a raise
 
         return pattern
@@ -175,6 +180,8 @@ class Table:
                 attr = 'INTEGER'
             elif self.patron[key]['type'].__name__ == 'float':
                 attr = 'REAL'
+            elif self.patron[key]['type'].__name__ == 'datetime':
+                attr = 'timestamp with time zone'
             else:
                 raise TypeError("\n\n***{}*** -> has a wrong Type !\n\n".format(key))
         return attr
@@ -209,6 +216,12 @@ class Table:
     def add_serialField(self, keyName='id', pattern={'primary':True}):
         self._welcomeCheck(keyName, pattern)
         self._setPattern(pattern, 'serial')
+
+        self.patron[keyName] = pattern
+    
+    def add_datetimeField(self, keyName='datetime', pattern={}):
+        self._welcomeCheck(keyName, pattern)
+        self._setPattern(pattern, datetime.datetime)
 
         self.patron[keyName] = pattern
     

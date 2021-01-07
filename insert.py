@@ -2,6 +2,7 @@ from exceptions_raise import *
 from table import Table
 from manager import Manager
 from local_settings import local_set
+import datetime
 
 class Insert:
 
@@ -40,7 +41,7 @@ class Insert:
         if key not in self.patron.keys():
             raise WrongEntry(key)
     
-    def _isTypeValueCorrect(self, key, value):
+    def _isTypeValueCorrect(self, key, value): # TODO with SERIAL: the type is no longer checked (str <-> str)
         if not isinstance(value, self.patron[key]['type']):
             raise TypeError("\n\n***{}: {}*** -> has a wrong Type !\n\n".format(key, value))
 
@@ -56,8 +57,8 @@ class Insert:
         containerBuild = {}
         for key in self.patron.keys():
             if key in entry.keys(): # if user has given an entry for this key
-                if isinstance(entry[key], str):
-                    containerBuild[key] = "'"+ entry[key] +"'"
+                if isinstance(entry[key], str) or isinstance(entry[key], datetime.datetime):
+                    containerBuild[key] = "'"+ str(entry[key]) +"'"
                 else:
                     containerBuild[key] = entry[key]
         return containerBuild
