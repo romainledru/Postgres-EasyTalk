@@ -16,7 +16,6 @@ class Manager:
     def scan_database(self):
         self.cursor.execute("SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname != 'pg_catalog' AND  schemaname != 'information_schema';")
         answer = self.cursor.fetchall()
-        print(answer)
         return answer
 
     def scan_table(self, table):

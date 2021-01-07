@@ -1,5 +1,7 @@
 from exceptions_raise import *
 from table import Table
+from manager import Manager
+from local_settings import local_set
 
 class Insert:
 
@@ -16,6 +18,14 @@ class Insert:
 
     ### INTERN METHODS ###
 
+    ## MANAGER DB ##
+
+    def _activeManager(self, phrase):
+        man = Manager(local_set['database'])
+        man.interact_up(phrase)
+        man.shutdown_manager()
+
+
     ## CHECK PACKAGE ##
 
     def _welcomeCheck(self, entry):
@@ -23,9 +33,7 @@ class Insert:
             raise TypeError
         for key, value in entry.items():
             self._isUnknownEntry(key)
-            #self._isEntryTwice(key) # no check anymore: restrict the entry possibilities
             self._isTypeValueCorrect(key, value)
-            # TTTT self._isLengthValueCorrect(key, value)
         self._areAllCompulsoryEntryHere(entry)
     
     def _isUnknownEntry(self, key):
@@ -35,13 +43,6 @@ class Insert:
     def _isTypeValueCorrect(self, key, value):
         if not isinstance(value, self.patron[key]['type']):
             raise TypeError("\n\n***{}: {}*** -> has a wrong Type !\n\n".format(key, value))
-
-    '''
-    def _isLengthValueCorrect(self, key, value):
-        if isinstance(value, str):
-            if len(value) > self.patron[key]['length']:
-                raise LengthError(key, self.patron[key]['length'])
-    ''' # TTT
 
     def _areAllCompulsoryEntryHere(self, entry):
         for key, value in self.patron.items():
@@ -59,11 +60,6 @@ class Insert:
                     containerBuild[key] = "'"+ entry[key] +"'"
                 else:
                     containerBuild[key] = entry[key]
-            '''
-            else: # if user has no entry given, and it was not compulsory, then None
-                if not self.patron[key]['primary']: # the primary key does not appear on INSERT: it is automaticaly incremented ONLY if it's not given in entry
-                    containerBuild[key] = None # TODO MAYBE NULL ?
-            '''
         return containerBuild
 
 
@@ -87,4 +83,6 @@ class Insert:
         phrase = phrase[:-2]
         phrase += ')'
         phrase += ';'
-        return phrase
+
+        self._activeManager(phrase)
+        print("INSERT succesfull")

@@ -11,7 +11,6 @@ class Table:
         self._tableCheck = self._tableCheck() # list of all tables already existing
         self.patron = {}
         if self.tb_name in self._tableCheck:
-            print('ok')
             self._extractPatron(self.tb_name)
         self.pattern = {
             'primary': None,
@@ -41,11 +40,9 @@ class Table:
     def _extractPatron(self, table):
         man = Manager(local_set['database'])
         answer = man.scan_table(table)
-        print(answer)
         for i in range(len(answer)):
             pattern = self._extractPattern(answer, i)
             self.patron[answer[i][0]] = pattern
-        print(self.patron)
 
     def _extractPattern(self, answer, row):
         pattern = {}
@@ -74,6 +71,11 @@ class Table:
         # TODO add a raise
 
         return pattern
+
+    def _activeManager(self, phrase):
+        man = Manager(local_set['database'])
+        man.interact_up(phrase)
+        man.shutdown_manager()
 
 
     ## CHECK PACKAGE ##
@@ -227,4 +229,6 @@ class Table:
         phrase = phrase [:-2]
         phrase += ')'
         phrase += ';'
-        return phrase
+
+        self._activeManager(phrase)
+        print('CREATE succesfull')
