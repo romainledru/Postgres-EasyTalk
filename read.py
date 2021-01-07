@@ -1,6 +1,8 @@
 from exceptions_raise import *
 from table import Table
 from insert import Insert
+from manager import Manager
+from local_settings import local_set
 
 class Read:
     def __init__(self, table):
@@ -16,29 +18,32 @@ class Read:
 
     ### INTERN METHODS ###
 
+    ## MANAGER DB ##
+
+    def _activeManager(self, phrase):
+        man = Manager(local_set['database'])
+        answer = man.interact_down(phrase)
+        man.shutdown_manager()
+        return answer
+
+
     ## CHECK PACKAGE ##
 
     def _welcomeCheck(self, entry): # TODO _welcomeCheck is almost the same as in insert.py. Maybe I can dedicate the checks in a special file
         if not isinstance(entry, dict):
             raise TypeError
-        for key, value in entry.items():
-            self._isUnknownEntry(key)
-            self._isTypeValueCorrect(key, value)
-            self._isLengthValueCorrect(key, value)
+        if entry != {}:
+            for key, value in entry.items():
+                self._isUnknownEntry(key)
+                self._isTypeValueCorrect(key, value)
 
     def _isUnknownEntry(self, key):
-        if key not in self.patron.keys():
+        if key not in self.patron.keys() and key != '*':
             raise WrongEntry(key)
     
     def _isTypeValueCorrect(self, key, value):
         if not isinstance(value, self.patron[key]['type']):
             raise TypeError("\n\n***{}: {}*** -> has a wrong Type !\n\n".format(key, value))
-
-    def _isLengthValueCorrect(self, key, value):
-        if isinstance(value, str):
-            if len(value) > self.patron[key]['length']:
-                raise LengthError(key, self.patron[key]['length'])
-    
 
     def _welcomeShowCheck(self, shows):
         for show in shows:
@@ -94,4 +99,7 @@ class Read:
         else: # No for loop occurs -> delete the 'WHERE'
             phrase = phrase[:-7]
         phrase += ';'
-        return phrase
+
+        answer = self._activeManager(phrase)
+        print('READ succesfull')
+        return answer
