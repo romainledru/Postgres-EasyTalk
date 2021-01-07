@@ -1,5 +1,5 @@
 from exceptions_raise import *
-
+from manager import Manager
 
 class Table:
 
@@ -30,7 +30,7 @@ class Table:
     ## CHECK PACKAGE ##
 
     def _tableCheck(self):
-        # TODO Check for tables already existing
+        # TODO Check for tables already existing with Manager
         return []
 
     def _welcomeCheck(self, keyName, pattern):
