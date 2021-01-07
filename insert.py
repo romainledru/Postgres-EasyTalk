@@ -25,7 +25,7 @@ class Insert:
             self._isUnknownEntry(key)
             #self._isEntryTwice(key) # no check anymore: restrict the entry possibilities
             self._isTypeValueCorrect(key, value)
-            self._isLengthValueCorrect(key, value)
+            # TTTT self._isLengthValueCorrect(key, value)
         self._areAllCompulsoryEntryHere(entry)
     
     def _isUnknownEntry(self, key):
@@ -36,10 +36,12 @@ class Insert:
         if not isinstance(value, self.patron[key]['type']):
             raise TypeError("\n\n***{}: {}*** -> has a wrong Type !\n\n".format(key, value))
 
+    '''
     def _isLengthValueCorrect(self, key, value):
         if isinstance(value, str):
             if len(value) > self.patron[key]['length']:
                 raise LengthError(key, self.patron[key]['length'])
+    ''' # TTT
 
     def _areAllCompulsoryEntryHere(self, entry):
         for key, value in self.patron.items():

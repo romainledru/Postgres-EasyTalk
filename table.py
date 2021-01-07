@@ -12,10 +12,9 @@ class Table:
         self.patron = {}
         if self.tb_name in self._tableCheck:
             print('ok')
-            self._extractPatron(self.tb_name) # TODO find to extract also pattern ...
+            self._extractPatron(self.tb_name)
         self.pattern = {
             'primary': None,
-            'length': None,
             'compulsory': None,
             'type': None,
         }
@@ -53,14 +52,15 @@ class Table:
 
         if answer[row][1] == 'NO':
             pattern['compulsory'] = False
+            pattern['primary'] = True
         if answer[row][1] == 'YES':
             pattern['compulsory'] = True
+            pattern['primary'] = False
         # TODO Add a raise
 
         if answer[row][2] == 'serial':
             pattern['type'] = 'SERIAL'
-            pattern['primary'] = True
-        elif answer[row][2] == 'character varying':
+        elif answer[row][2] == 'text':
             pattern['type'] = str
             pattern['primary'] = False
         elif answer[row][2] == 'boolean':
@@ -71,10 +71,8 @@ class Table:
             pattern['primary'] = False
         elif answer[row][2] == 'integer':
             pattern['type'] = int
-            pattern['primary'] = False
         # TODO add a raise
 
-        pattern['length'] = 255
         return pattern
 
 
@@ -123,20 +121,7 @@ class Table:
 
     def _setPattern(self, pattern, typeCurrent):
         self._setType(pattern, typeCurrent) # check and set type from given pattern
-        self._setLength(pattern) # check and define length from given pattern
         self._setCompulsory(pattern)
-
-    def _setLength(self, pattern):
-        if pattern['type'] == str: # length is useful only for varChar entry
-            if 'length' in pattern.keys():
-                if type(pattern['length']) is not int:
-                    raise TypeError 
-                if pattern['length'] > 255:
-                    pattern['length'] = 255
-            else:
-                pattern['length'] = 255
-        else:
-            pattern['length'] = None # for other entry types, length is kept as None
     
     def _setType(self, pattern, typeCurrent):
         pattern['type'] = typeCurrent # force to give the right type
@@ -177,19 +162,17 @@ class Table:
 
     def _typeFormat(self, key):
         attr = ''
-        if self.patron[key]['type'] == 'serial': # handle 'id' exception
-            attr = 'SERIAL'
-        else: # handle all other cases
-            if self.patron[key]['type'].__name__ == 'str':
-                attr = 'VARCHAR({})'.format(self.patron[key]['length'])
-            elif self.patron[key]['type'].__name__ == 'bool':
-                attr = 'BOOLEAN'
-            elif self.patron[key]['type'].__name__ == 'int':
-                attr = 'INTEGER'
-            elif self.patron[key]['type'].__name__ == 'float':
-                attr = 'REAL'
-            else:
-                raise TypeError("\n\n***{}*** -> has a wrong Type !\n\n".format(key))
+
+        if self.patron[key]['type'].__name__ == 'str':
+            attr = 'TEXT'
+        elif self.patron[key]['type'].__name__ == 'bool':
+            attr = 'BOOLEAN'
+        elif self.patron[key]['type'].__name__ == 'int':
+            attr = 'INTEGER'
+        elif self.patron[key]['type'].__name__ == 'float':
+            attr = 'REAL'
+        else:
+            raise TypeError("\n\n***{}*** -> has a wrong Type !\n\n".format(key))
         return attr
 
 
