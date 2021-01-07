@@ -156,23 +156,25 @@ class Table:
             pattern = {
                 'length': 10,
             }
-            self.add_serialField('id', pattern) # if no id given from user, force to give one
+            self.add_serialField('id') # if no id given from user, force to give one
             idCurrent = 'id'
         self._setIdPrimaryIfNoOtherPrimary(idCurrent, patron) # If no primary given, 'id' should be primary as default
 
     def _typeFormat(self, key):
         attr = ''
-
-        if self.patron[key]['type'].__name__ == 'str':
-            attr = 'TEXT'
-        elif self.patron[key]['type'].__name__ == 'bool':
-            attr = 'BOOLEAN'
-        elif self.patron[key]['type'].__name__ == 'int':
-            attr = 'INTEGER'
-        elif self.patron[key]['type'].__name__ == 'float':
-            attr = 'REAL'
+        if self.patron[key]['type'] == 'serial':
+            attr = 'SERIAL'
         else:
-            raise TypeError("\n\n***{}*** -> has a wrong Type !\n\n".format(key))
+            if self.patron[key]['type'].__name__ == 'str':
+                attr = 'TEXT'
+            elif self.patron[key]['type'].__name__ == 'bool':
+                attr = 'BOOLEAN'
+            elif self.patron[key]['type'].__name__ == 'int':
+                attr = 'INTEGER'
+            elif self.patron[key]['type'].__name__ == 'float':
+                attr = 'REAL'
+            else:
+                raise TypeError("\n\n***{}*** -> has a wrong Type !\n\n".format(key))
         return attr
 
 
