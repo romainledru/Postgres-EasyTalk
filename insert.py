@@ -53,10 +53,15 @@ class Insert:
         containerBuild = {}
         for key in self.patron.keys():
             if key in entry.keys(): # if user has given an entry for this key
-                containerBuild[key] = entry[key]
+                if isinstance(entry[key], str):
+                    containerBuild[key] = "'"+ entry[key] +"'"
+                else:
+                    containerBuild[key] = entry[key]
+            '''
             else: # if user has no entry given, and it was not compulsory, then None
                 if not self.patron[key]['primary']: # the primary key does not appear on INSERT: it is automaticaly incremented ONLY if it's not given in entry
                     containerBuild[key] = None # TODO MAYBE NULL ?
+            '''
         return containerBuild
 
 

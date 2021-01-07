@@ -35,16 +35,47 @@ class Table:
         man = Manager(local_set['database'])
         answer = man.scan_database()
         man.shutdown_manager()
-        for row in answer: # row is where table data is stored
-            tables.append(row[1]) # row[1] is where table name is stored
+        for row in answer:
+            tables.append(row[0]) # row[0] is where table name is stored
         return tables
     
     def _extractPatron(self, table):
         man = Manager(local_set['database'])
         answer = man.scan_table(table)
+        print(answer)
         for i in range(len(answer)):
-            self.patron[str(answer[i][3])] = {}
+            pattern = self._extractPattern(answer, i)
+            self.patron[answer[i][0]] = pattern
         print(self.patron)
+
+    def _extractPattern(self, answer, row):
+        pattern = {}
+
+        if answer[row][1] == 'NO':
+            pattern['compulsory'] = False
+        if answer[row][1] == 'YES':
+            pattern['compulsory'] = True
+        # TODO Add a raise
+
+        if answer[row][2] == 'serial':
+            pattern['type'] = 'SERIAL'
+            pattern['primary'] = True
+        elif answer[row][2] == 'character varying':
+            pattern['type'] = str
+            pattern['primary'] = False
+        elif answer[row][2] == 'boolean':
+            pattern['type'] = bool
+            pattern['primary'] = False
+        elif answer[row][2] == 'real':
+            pattern['type'] = float
+            pattern['primary'] = False
+        elif answer[row][2] == 'integer':
+            pattern['type'] = int
+            pattern['primary'] = False
+        # TODO add a raise
+
+        pattern['length'] = 255
+        return pattern
 
 
     ## CHECK PACKAGE ##

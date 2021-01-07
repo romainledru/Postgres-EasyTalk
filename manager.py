@@ -14,18 +14,19 @@ class Manager:
         self.cursor = self.connect.cursor()
 
     def scan_database(self):
-        self.cursor.execute("SELECT * FROM pg_catalog.pg_tables WHERE schemaname != 'pg_catalog' AND  schemaname != 'information_schema';")
+        self.cursor.execute("SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname != 'pg_catalog' AND  schemaname != 'information_schema';")
         answer = self.cursor.fetchall()
+        print(answer)
         return answer
 
     def scan_table(self, table):
-        self.cursor.execute("SELECT * FROM information_schema.columns WHERE table_schema = 'public' AND table_name = '{}';".format(table))
+        self.cursor.execute("SELECT column_name, is_nullable, data_type FROM information_schema.columns WHERE table_schema = 'public' AND table_name = '{}';".format(table))
         answer = self.cursor.fetchall()
         return answer
 
     def interact_up(self, phrase):
         self.cursor.execute(phrase)
-        self.cursor.commit()
+        self.connect.commit()
 
     def interact_down(self, phrase):
         self.cursor.execute(phrase)
