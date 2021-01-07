@@ -11,10 +11,15 @@ class Manager:
             user = local_set['user'],
             password = local_set['password'])
         
-        self.cursor = connect.cursor()
+        self.cursor = self.connect.cursor()
 
-    def scan_table(self):
+    def scan_database(self):
         self.cursor.execute("SELECT * FROM pg_catalog.pg_tables WHERE schemaname != 'pg_catalog' AND  schemaname != 'information_schema';")
+        answer = self.cursor.fetchall()
+        return answer
+
+    def scan_table(self, table):
+        self.cursor.execute("SELECT * FROM information_schema.columns WHERE table_schema = 'public' AND table_name = '{}';".format(table))
         answer = self.cursor.fetchall()
         return answer
 

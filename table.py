@@ -1,17 +1,18 @@
 from exceptions_raise import *
 from manager import Manager
+from local_settings import *
 
 class Table:
 
-    def __init__(self,db_name):
+    def __init__(self,tb_name):
 
-        self.db_name = 'public.' + db_name # related to postgresql
+        self.tb_name = tb_name # related to postgresql
 
         self._tableCheck = self._tableCheck() # list of all tables already existing
-        if self.db_name not in self._tableCheck:
-            self.patron = {}
-        else:
-            pass # TODO define self.patron from existing table
+        self.patron = {}
+        if self.tb_name in self._tableCheck:
+            print('ok')
+            self._extractPatron(self.tb_name) # TODO find to extract also pattern ...
         self.pattern = {
             'primary': None,
             'length': None,
@@ -20,18 +21,33 @@ class Table:
         }
     
     def __str__(self):
-        return self.db_name
+        return 'public.' + self.tb_name
     
     def __transfert__(self): # Send DB-definition to an other class
         return self.patron
 
     #### INTERN METHODS ####
 
-    ## CHECK PACKAGE ##
+    ## MANAGER DB ##
 
     def _tableCheck(self):
-        # TODO Check for tables already existing with Manager
-        return []
+        tables = []
+        man = Manager(local_set['database'])
+        answer = man.scan_database()
+        man.shutdown_manager()
+        for row in answer: # row is where table data is stored
+            tables.append(row[1]) # row[1] is where table name is stored
+        return tables
+    
+    def _extractPatron(self, table):
+        man = Manager(local_set['database'])
+        answer = man.scan_table(table)
+        for i in range(len(answer)):
+            self.patron[str(answer[i][3])] = {}
+        print(self.patron)
+
+
+    ## CHECK PACKAGE ##
 
     def _welcomeCheck(self, keyName, pattern):
         self._welcomeKeyCheck(keyName)
@@ -124,24 +140,25 @@ class Table:
             pattern = {
                 'length': 10,
             }
-            self.add_intField('id', pattern)
+            self.add_serialField('id', pattern) # if no id given from user, force to give one
             idCurrent = 'id'
         self._setIdPrimaryIfNoOtherPrimary(idCurrent, patron) # If no primary given, 'id' should be primary as default
 
     def _typeFormat(self, key):
         attr = ''
-        attrs = ['bool', 'int', 'float']
-        if self.patron[key]['type'].__name__ == 'str':
-            attr = 'VARCHAR({})'.format(self.patron[key]['length'])
-        elif self.patron[key]['type'].__name__ == 'bool':
-            attr = 'BOOLEAN'
-        elif self.patron[key]['type'].__name__ == 'int':
-            attr = 'INTEGER'
-        elif self.patron[key]['type'].__name__ == 'float':
-            attr = 'REAL'
-            #attr = self.patron[key]['type'].__name__
-        else:
-            raise TypeError("\n\n***{}*** -> has a wrong Type !\n\n".format(key))
+        if self.patron[key]['type'] == 'serial': # handle 'id' exception
+            attr = 'SERIAL'
+        else: # handle all other cases
+            if self.patron[key]['type'].__name__ == 'str':
+                attr = 'VARCHAR({})'.format(self.patron[key]['length'])
+            elif self.patron[key]['type'].__name__ == 'bool':
+                attr = 'BOOLEAN'
+            elif self.patron[key]['type'].__name__ == 'int':
+                attr = 'INTEGER'
+            elif self.patron[key]['type'].__name__ == 'float':
+                attr = 'REAL'
+            else:
+                raise TypeError("\n\n***{}*** -> has a wrong Type !\n\n".format(key))
         return attr
 
 
@@ -171,10 +188,16 @@ class Table:
         
         self.patron[keyName] = pattern
     
+    def add_serialField(self, keyName='id', pattern={'primary':True}):
+        self._welcomeCheck(keyName, pattern)
+        self._setPattern(pattern, 'serial')
+
+        self.patron[keyName] = pattern
+    
 
     def write_TABLE(self):
         self._checkIdKeyExist(self.patron)
-        phrase = "CREATE TABLE {} (".format(self.db_name[7:]) # except 'public.'
+        phrase = "CREATE TABLE {} (".format(self.tb_name) # except 'public.'
         for key in self.patron:
             phrase += key
             phrase += ' '
