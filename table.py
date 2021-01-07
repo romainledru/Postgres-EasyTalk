@@ -136,7 +136,7 @@ class Table:
         elif self.patron[key]['type'].__name__ == 'bool':
             attr = 'BOOLEAN'
         elif self.patron[key]['type'].__name__ == 'int':
-            attr = 'INT'
+            attr = 'INTEGER'
         elif self.patron[key]['type'].__name__ == 'float':
             attr = 'REAL'
             #attr = self.patron[key]['type'].__name__
