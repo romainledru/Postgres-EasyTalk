@@ -48,10 +48,10 @@ from easytalk import *          -> Table('table')
 ```python
 table = Table('articles_table')
 
-table.add_serialField()
-table.add_datetimeField()
-table.add_varcharField('name')
-table.add_intField('price')
+table.add_serialField()             # automatic 'id' increment (primary key)
+table.add_datetimeField()           # automatic 'created_at'
+table.add_varcharField('name')      
+table.add_intField('price')         # each add_ have optional attr, such as NOT NULL (by default on True)
 table.add_booleanField('to_buy')
 
 table.write_TABLE()
