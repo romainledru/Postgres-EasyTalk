@@ -1,6 +1,6 @@
 from exceptions_raise import *
 from manager import Manager
-from local_settings_user import local_set
+from local_settings_user import local_set, pg_items, pg_items_str
 import datetime
 
 class Table:
@@ -56,24 +56,12 @@ class Table:
             pattern['primary'] = False
         # TODO Add a raise
 
-        if answer[row][2] == 'serial':
-            pattern['type'] = 'SERIAL'
-        elif answer[row][2] == 'text':
-            pattern['type'] = str
-            pattern['primary'] = False
-        elif answer[row][2] == 'boolean':
-            pattern['type'] = bool
-            pattern['primary'] = False
-        elif answer[row][2] == 'real':
-            pattern['type'] = float
-            pattern['primary'] = False
-        elif answer[row][2] == 'integer':
-            pattern['type'] = int
-        elif answer[row][2] == 'timestamp with time zone':
-            pattern['type'] = datetime.datetime
-        # TODO ADD datetime ('timestamp with time zone')
-
-        # TODO add a raise
+        if answer[row][2] in pg_items.keys():
+            for key, value in pg_items.items():
+                if answer[row][2] == key:
+                    pattern['type'] = value # transform <type> into accepted <type value> for a given sql language
+        else:
+            raise TypeError("\n\n***{}*** -> item type found which is not is not supported yet\n\n".format(answer[row][2]))
 
         return pattern
 
@@ -167,23 +155,18 @@ class Table:
             idCurrent = 'id'
         self._setIdPrimaryIfNoOtherPrimary(idCurrent, patron) # If no primary given, 'id' should be primary as default
 
-    def _typeFormat(self, key):
+    def _typeFormat(self, keyName):
         attr = ''
-        if self.patron[key]['type'] == 'serial':
+
+        if self.patron[keyName]['type'] == 'serial':
             attr = 'SERIAL'
+        elif self.patron[keyName]['type'].__name__ in pg_items_str.values():
+            for key, value in pg_items_str.items():
+                if self.patron[keyName]['type'].__name__ == value:
+                    attr = key # transform <type value> from sql into accepted <type> for python
         else:
-            if self.patron[key]['type'].__name__ == 'str':
-                attr = 'TEXT'
-            elif self.patron[key]['type'].__name__ == 'bool':
-                attr = 'BOOLEAN'
-            elif self.patron[key]['type'].__name__ == 'int':
-                attr = 'INTEGER'
-            elif self.patron[key]['type'].__name__ == 'float':
-                attr = 'REAL'
-            elif self.patron[key]['type'].__name__ == 'datetime':
-                attr = 'timestamp with time zone'
-            else:
-                raise TypeError("\n\n***{}*** -> has a wrong Type !\n\n".format(key))
+            raise TypeError("\n\n***{}*** -> item type found which is not is not supported yet\n\n".format(keyName))
+
         return attr
 
 
