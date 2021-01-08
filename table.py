@@ -51,9 +51,11 @@ class Table:
         if answer[row][1] == 'NO':
             pattern['compulsory'] = False
             pattern['primary'] = True
-        if answer[row][1] == 'YES':
+        elif answer[row][1] == 'YES':
             pattern['compulsory'] = True
             pattern['primary'] = False
+        else:
+            raise NameError("\n\n***{}*** -> compulsory output from DB not interpreted succesfully\n\n".format(answer[row][1]))
         # TODO Add a raise
 
         if answer[row][2] in pg_items.keys():
