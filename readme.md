@@ -16,6 +16,8 @@ I propose a new query system for postgres which allow to use it easily on automa
     - Your next collegue can look at your 7 months ago database creation code and understand quickly how it is built.
 - User-entry checkpoint control
     - Find out bugs from the source and relax. Entries are ckeched and futures bugs are prevented. The tool will not allow an entry as easy as a direct basic database query.
+- Increase security
+    - Queries are controled to be prevented from SQL Input Injection
 
 ## Postgresql query tools
 
