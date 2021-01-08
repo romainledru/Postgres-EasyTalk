@@ -34,7 +34,9 @@ python3 -m pip install easytalk
 
 Then, to use the package on your project:
 ```python
-from easytalk import *
+import easytalk                 -> easytable.Table('table')
+or
+from easytalk import *          -> Table('table')
 ```
 
 ## INPUT / OUTPUT EXAMPLE
