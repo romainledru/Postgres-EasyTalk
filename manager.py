@@ -1,5 +1,5 @@
 import psycopg2
-from local_settings import *
+from local_settings_user import *
 
 
 class Manager:

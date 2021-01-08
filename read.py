@@ -2,7 +2,7 @@ from exceptions_raise import *
 from table import Table
 from insert import Insert
 from manager import Manager
-from local_settings import local_set
+from local_settings_user import local_set
 
 class Read:
     def __init__(self, table):
@@ -29,7 +29,7 @@ class Read:
 
     ## CHECK PACKAGE ##
 
-    def _welcomeCheck(self, entry): # TODO _welcomeCheck is almost the same as in insert.py. Maybe I can dedicate the checks in a special file
+    def _welcomeCheck(self, entry): # TODO _welcomeCheck is almost the same as in insert.py AND delete.py. Maybe I can dedicate the checks in a special file
         if not isinstance(entry, dict):
             raise TypeError
         if entry != {}:
@@ -44,6 +44,7 @@ class Read:
     def _isTypeValueCorrect(self, key, value):
         if not isinstance(value, self.patron[key]['type']):
             raise TypeError("\n\n***{}: {}*** -> has a wrong Type !\n\n".format(key, value))
+
 
     def _welcomeShowCheck(self, shows):
         for show in shows:

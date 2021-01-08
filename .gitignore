@@ -1,5 +1,5 @@
 backlog.txt
-local_settings.py
+local_settings_admin.py
 env/
 .vscode/
 .DS_store

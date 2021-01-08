@@ -1,6 +1,6 @@
 from exceptions_raise import *
 from manager import Manager
-from local_settings import *
+from local_settings_user import local_set
 import datetime
 
 class Table:
