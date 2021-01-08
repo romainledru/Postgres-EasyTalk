@@ -17,11 +17,24 @@ I propose a new query system for postgres which allow to use it easily on automa
 - User-entry checkpoint control
     - Find out bugs from the source and relax. Entries are ckeched and futures bugs are prevented. The tool will not allow an entry as easy as a direct basic database query.
 
-## Postgresql query tools (in progress)
+## Postgresql query tools
 
 - CREATE
 - INSERT
 - SELECT
+- DELETE ... in progress!
+
+## INSTALL AND IMPORT
+
+The version will be soon available on Pypi
+```bash
+python3 -m pip install easytalk
+```
+
+Then, to use the package on your project:
+```python
+from easytalk import *
+```
 
 ## INPUT / OUTPUT EXAMPLE
 
@@ -30,45 +43,57 @@ I propose a new query system for postgres which allow to use it easily on automa
 * Input
 
 ```python
-myTable = Table("table1")
-pattern = {
-    'primary': False,
-    'length': 58,
-    'compulsory': False,
-}
-myTable.add_varcharField("StrEntry1", pattern)
-myTable.add_booleanField("BooleanEntry1")
-myTable.add_intField("IntEntry1")
-myTable.add_floatField("FloatEntry1")
-myTable.write_TABLE()
+table = Table('articles_table')
+
+table.add_serialField()
+table.add_datetimeField()
+table.add_varcharField('name')
+table.add_intField('price')
+table.add_booleanField('to_buy')
+
+table.write_TABLE()
 ```
 
 * Output
 
-```python
-CREATE TABLE table1 (StrEntry1 VARCHAR(58), BooleanEntry1 BOOLEAN, IntEntry1 INT, FloatEntry1 REAL, id INT);
-```
+![table_CREATE](/images/table_CREATE.png)
 
 ### INSERT example
 
 * Input
 
 ```python
-insertQuery = Insert(myTable)
+i = Insert(table)
+
 entry = {
-    'StrEntry1': 'hello',
-    'BooleanEntry1': True,
-    'IntEntry1': 45,
-    'FloatEntry1': 35.65,
+    'name': 'item3',
+    'price': 345,
+    'datetime': datetime.datetime.now(),
+    'to_buy': False,
 }
-insertQuery.write_ENTRY(entry)
+i.write_ENTRY(entry)
 ```
 
 * Output
 
+![table_INSERT](/images/table_INSERT.png)
+
+### READ example
+
+* Input
+
 ```python
-INSERT INTO table1 (StrEntry1, BooleanEntry1, IntEntry1, FloatEntry1) VALUES (hello, True, 45, 35.65);
+r = Read(table)
+
+answer = r.find_filter()
+for row in answer:
+    print(row)
 ```
+
+* Output
+
+![table_SELECT](/images/table_SELECT.png)
+
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
