@@ -1,6 +1,6 @@
-from exceptions_raise import *
-from table import Table
-from manager import Manager
+from .exceptions_raise import *
+from .table import Table
+from .manager import Manager
 from local_settings_user import local_set
 import datetime
 
