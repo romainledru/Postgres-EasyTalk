@@ -22,7 +22,8 @@ I propose a new query system for postgres which allow to use it easily on automa
 - CREATE
 - INSERT
 - SELECT
-- DELETE ... in progress!
+- DELETE
+- ... in progress!
 
 ## INSTALL AND IMPORT
 

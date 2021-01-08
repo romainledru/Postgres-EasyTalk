@@ -10,5 +10,5 @@ else:
         'port': 'CHANGEME',
         'user': 'CHANGEME',
         'password': 'CHANGEME',
-        'database': 'CHANGEME-db'
+        'database': 'CHANGEME'
     }
