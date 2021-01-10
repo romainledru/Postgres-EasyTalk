@@ -10,3 +10,5 @@ from local_settings_user import local_set
 
 import datetime
 import psycopg2
+
+__version__ = "0.1.0"
