@@ -1,13 +1,15 @@
 from .exceptions_raise import *
 from .manager import Manager
-from local_settings_user import local_set, pg_items, pg_items_str
+from local_settings_user import local_set
+from .nomenclatur import pg_items, pg_items_str
 import datetime
 
 class Table:
 
-    def __init__(self,tb_name):
+    def __init__(self, db_name, tb_name):
 
         self.tb_name = tb_name # related to postgresql
+        self.db_name = db_name
 
         self._tableCheck = self._tableCheck() # list of all tables already existing
         self.patron = {}
@@ -19,11 +21,20 @@ class Table:
             'type': None,
         }
     
+    #def __repr__(self):
+    #    return ['public.' + self.tb_name, self.db_name]
+
     def __str__(self):
-        return 'public.' + self.tb_name
+        'public.' + self.tb_name
     
     def __transfert__(self): # Send DB-definition to an other class
         return self.patron
+    
+    def get_db_name(self):
+        return self.db_name
+    
+    def get_tb_name(self):
+        return self.tb_name
 
     #### INTERN METHODS ####
 
@@ -31,7 +42,7 @@ class Table:
 
     def _tableCheck(self):
         tables = []
-        man = Manager(local_set['database'])
+        man = Manager(self.db_name)
         answer = man.scan_database()
         man.shutdown_manager()
         for row in answer:
@@ -39,7 +50,7 @@ class Table:
         return tables
     
     def _extractPatron(self, table):
-        man = Manager(local_set['database'])
+        man = Manager(self.db_name)
         answer = man.scan_table(table)
         for i in range(len(answer)):
             pattern = self._extractPattern(answer, i)
@@ -68,7 +79,7 @@ class Table:
         return pattern
 
     def _activeManager(self, phrase):
-        man = Manager(local_set['database'])
+        man = Manager(self.db_name)
         man.interact_up(phrase)
         man.shutdown_manager()
 
