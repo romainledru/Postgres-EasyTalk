@@ -16,6 +16,8 @@ I propose a new query system for postgres which allow to use it easily on automa
     - Your next collegue can look at your 7 months ago database creation code and understand quickly how it is built.
 - User-entry checkpoint control
     - Find out bugs from the source and relax. Entries are ckeched and futures bugs are prevented. The tool will not allow an entry as easy as a direct basic database query.
+- Increase security
+    - Queries are controled to be prevented from SQL Input Injection
 
 ## Postgresql query tools
 
@@ -34,7 +36,9 @@ python3 -m pip install easytalk
 
 Then, to use the package on your project:
 ```python
-from easytalk import *
+import easytalk                 -> easytable.Table('table')
+or
+from easytalk import *          -> Table('table')
 ```
 
 ## INPUT / OUTPUT EXAMPLE
@@ -46,10 +50,10 @@ from easytalk import *
 ```python
 table = Table('articles_table')
 
-table.add_serialField()
-table.add_datetimeField()
-table.add_varcharField('name')
-table.add_intField('price')
+table.add_serialField()             # automatic 'id' increment (primary key)
+table.add_datetimeField()           # automatic 'created_at'
+table.add_varcharField('name')      
+table.add_intField('price')         # each add_ have optional attr, such as NOT NULL (by default on True)
 table.add_booleanField('to_buy')
 
 table.write_TABLE()
