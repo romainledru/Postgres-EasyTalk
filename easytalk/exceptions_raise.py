@@ -61,3 +61,12 @@ class CompulsoryEntry(Exception):
 
     def __str__(self):
         return f' \n\n ***{self.name}*** -> {self.message}\n\n'
+
+class UnabletoConnect(Exception):
+    def __init__(self, name):
+        self.name = name
+        self.message = "easytalk can't reach the database. Please check db-name, host, user, pswd, port."
+        super().__init__(self.message)
+
+    def __str__(self):
+        return f' \n\n ***{self.name}*** -> {self.message}\n\n'

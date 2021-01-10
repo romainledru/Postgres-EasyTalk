@@ -1,15 +1,19 @@
 import psycopg2
 from local_settings_user import *
+from .exceptions_raise import UnabletoConnect
 
 
 class Manager:
     def __init__(self, db):
         self.db = db
 
-        self.connect = psycopg2.connect(host = local_set['host'],
-            database = self.db,
-            user = local_set['user'],
-            password = local_set['password'])
+        try:
+            self.connect = psycopg2.connect(host = local_set['host'],
+                database = self.db,
+                user = local_set['user'],
+                password = local_set['password'])
+        except:
+            raise UnabletoConnect(self.db)
         
         self.cursor = self.connect.cursor()
 
