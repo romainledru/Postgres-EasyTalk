@@ -1,9 +1,9 @@
 import pytest
-from exceptions_raise import *
+from easytalk.exceptions_raise import *
 
 ### TABLE ###
 
-from table import Table
+from easytalk.table import Table
 
 class test_Table:
 
@@ -28,7 +28,7 @@ class test_Table:
     
 ### INSERT ###
 
-from insert import Insert
+from easytalk.insert import Insert
 
 class test_Insert:
 
@@ -56,7 +56,7 @@ class test_Insert:
 
 ### SELECT ###
 
-from select import Read
+from easytalk.select import Read
 
 class test_Select:
 
