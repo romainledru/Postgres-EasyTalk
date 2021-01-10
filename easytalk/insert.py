@@ -8,6 +8,8 @@ class Insert:
 
     def __init__(self, table):
         self.table = table
+        self.db_name = self.table.get_db_name()
+        self.tb_name = self.table.get_tb_name()
         if isinstance(self.table, Table):
             self.patron = self.table.__transfert__() # Load DB-definition from Table-class
         else:
@@ -22,7 +24,7 @@ class Insert:
     ## MANAGER DB ##
 
     def _activeManager(self, phrase):
-        man = Manager(local_set['database'])
+        man = Manager(self.db_name)
         man.interact_up(phrase)
         man.shutdown_manager()
 
@@ -70,7 +72,7 @@ class Insert:
         self._welcomeCheck(entry)
         containerBuild = self._createBuild(entry)
 
-        phrase = "INSERT INTO {} (".format(self.table)
+        phrase = "INSERT INTO {} (".format(self.tb_name)
 
         for key in containerBuild.keys():
             phrase += key

@@ -13,6 +13,8 @@ class Delete:
 
     def __init__(self, table):
         self.table = table
+        self.db_name = self.table.get_db_name()
+        self.tb_name = self.table.get_tb_name()
         if isinstance(self.table, Table):
             self.patron = self.table.__transfert__() # Load DB-definition from Table-class
         else:
@@ -27,7 +29,7 @@ class Delete:
     ## MANAGER DB ##
 
     def _activeManager(self, phrase):
-        man = Manager(local_set['database'])
+        man = Manager(self.db_name)
         man.interact_up(phrase)
         man.shutdown_manager()
 
@@ -66,7 +68,7 @@ class Delete:
     def remove_filter(self, entry={}):
         self._welcomeCheck(entry) # check if entry follows format
         entry = self._alterEntry(entry)
-        phrase = "DELETE FROM {} WHERE ".format(self.table)
+        phrase = "DELETE FROM {} WHERE ".format(self.tb_name)
 
         if entry != {}:
             for key, value in entry.items():

@@ -7,6 +7,8 @@ from local_settings_user import local_set
 class Read:
     def __init__(self, table):
         self.table = table
+        self.db_name = self.table.get_db_name()
+        self.tb_name = self.table.get_tb_name()
         if isinstance(self.table, Table):
             self.patron = self.table.__transfert__() # Load DB-definition from Table-class
         else:
@@ -21,7 +23,7 @@ class Read:
     ## MANAGER DB ##
 
     def _activeManager(self, phrase):
-        man = Manager(local_set['database'])
+        man = Manager(self.db_name)
         answer = man.interact_down(phrase)
         man.shutdown_manager()
         return answer
@@ -90,7 +92,7 @@ class Read:
             phrase += ', '
         phrase = phrase[:-2]
 
-        phrase += " FROM {} WHERE ".format(self.table)
+        phrase += " FROM {} WHERE ".format(self.tb_name)
 
         if entry != {}:
             for key, value in containerBuild['entry'].items():
