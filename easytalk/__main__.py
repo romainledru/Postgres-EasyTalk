@@ -30,24 +30,30 @@ def credentials():
     print("*** function credentials activated ***")
 
     host = input("typ the host: ")
-    if host is not str:
+    if not isinstance(host, str):
             raise TypeError
 
     user = input("typ the user: ")
-    if user is not str:
+    if not isinstance(host, str):
             raise TypeError
 
     password = input("typ the password: ")
-    if password is not str:
+    if not isinstance(host, str):
         raise TypeError
 
     port = input("type the port: ")
-    if port is not int:
+    if not isinstance(host, str):
         raise TypeError
+    port = int(port)
 
     dataJson = encodeJson(host, user, password, port)
     writeDown(dataJson)
 
-    print("*** credentials reset successful")
+    print("*** credentials reset successful ***")
 
-print('hello from main__')
+# *******************************************************************
+
+    ### RUN ###
+
+if __name__ == "__main__":
+    credentials()
