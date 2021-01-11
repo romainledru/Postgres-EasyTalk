@@ -123,7 +123,7 @@ class Table:
     
     def _patternFollowPattern(self, pattern):
         # entry will be accepted only if it is in the accepted list
-        accepted = ['primary', 'type', 'length', 'compulsory']
+        accepted = ['primary', 'type', 'compulsory']
         for key in pattern.keys():
             if key not in accepted:
                 raise KeyNotAccepted(key)
@@ -182,9 +182,6 @@ class Table:
         elif 'Id' in patron:
             idCurrent = 'Id'
         else:
-            pattern = {
-                'length': 10,
-            }
             self.add_serialField('id') # if no id given from user, force to give one
             idCurrent = 'id'
         self._setIdPrimaryIfNoOtherPrimary(idCurrent, patron) # If no primary given, 'id' should be primary as default
