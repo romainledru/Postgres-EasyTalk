@@ -1,20 +1,28 @@
 import psycopg2
 import json
 
-from local_settings_user import *
+#from local_settings_user import *
 from .exceptions_raise import UnabletoConnect
 
 # *******************************************************************
+
+def jsonDown():
+    with open('easytalk/credentials.json', 'r') as f:
+        dataJson = f.read()
+        data = json.loads(dataJson)
+    return data
+
 
 class Manager:
     def __init__(self, db):
         self.db = db
 
+        credentials = jsonDown()
         try:
-            self.connect = psycopg2.connect(host = local_set['host'],
+            self.connect = psycopg2.connect(host = credentials['host'],
                 database = self.db,
-                user = local_set['user'],
-                password = local_set['password'])
+                user = credentials['user'],
+                password = credentials['password'])
         except:
             raise UnabletoConnect(self.db)
         
