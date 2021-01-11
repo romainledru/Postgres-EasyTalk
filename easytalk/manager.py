@@ -1,7 +1,10 @@
 import psycopg2
+import json
+
 from local_settings_user import *
 from .exceptions_raise import UnabletoConnect
 
+# *******************************************************************
 
 class Manager:
     def __init__(self, db):
