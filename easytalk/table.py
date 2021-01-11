@@ -4,14 +4,16 @@ from local_settings_user import local_set
 from .nomenclatur import pg_items, pg_items_str
 import datetime
 
+# *******************************************************************
+
 class Table:
 
     def __init__(self, db_name, tb_name):
 
-        self.tb_name = tb_name # related to postgresql
+        self.tb_name = tb_name
         self.db_name = db_name
 
-        self._tableCheck = self._tableCheck() # list of all tables already existing
+        self._tableCheck = self._tableCheck() # list of all tables already existing in database
         self.patron = {}
         if self.tb_name in self._tableCheck:
             self._extractPatron(self.tb_name)
@@ -20,14 +22,14 @@ class Table:
             'compulsory': None,
             'type': None,
         }
-    
-    #def __repr__(self):
-    #    return ['public.' + self.tb_name, self.db_name]
 
     def __str__(self):
-        'public.' + self.tb_name
+        # 'public.' added because of the PostgreSQL syntax
+        # TODO pay attention for next SQL (MySQL,..) if there is also this 'publci
+        return 'public.' + self.tb_name
     
-    def __transfert__(self): # Send DB-definition to an other class
+    def __transfert__(self):
+        # Send DB-definition to an other class
         return self.patron
     
     def get_db_name(self):
@@ -36,11 +38,16 @@ class Table:
     def get_tb_name(self):
         return self.tb_name
 
+# *******************************************************************
+
     #### INTERN METHODS ####
+
+# *******************************************************************
 
     ## MANAGER DB ##
 
     def _tableCheck(self):
+        # check for all tables in DB
         tables = []
         man = Manager(self.db_name)
         answer = man.scan_database()
@@ -50,6 +57,7 @@ class Table:
         return tables
     
     def _extractPatron(self, table):
+        # check for labels (columns names) in table
         man = Manager(self.db_name)
         answer = man.scan_table(table)
         for i in range(len(answer)):
@@ -57,6 +65,7 @@ class Table:
             self.patron[answer[i][0]] = pattern
 
     def _extractPattern(self, answer, row):
+        # check for definition of a label (column name) in table
         pattern = {}
 
         if answer[row][1] == 'NO':
@@ -67,7 +76,6 @@ class Table:
             pattern['primary'] = False
         else:
             raise NameError("\n\n***{}*** -> compulsory output from DB not interpreted succesfully\n\n".format(answer[row][1]))
-        # TODO Add a raise
 
         if answer[row][2] in pg_items.keys():
             for key, value in pg_items.items():
@@ -79,10 +87,12 @@ class Table:
         return pattern
 
     def _activeManager(self, phrase):
+        # send function (to DB)
         man = Manager(self.db_name)
         man.interact_up(phrase)
         man.shutdown_manager()
 
+# *******************************************************************
 
     ## CHECK PACKAGE ##
 
@@ -90,6 +100,8 @@ class Table:
         self._welcomeKeyCheck(keyName)
         self._welcomePatternCheck(pattern)
 
+
+    # CHECK KEY #
 
     def _welcomeKeyCheck(self, keyName):
         self._alreadyExist(keyName)
@@ -103,19 +115,21 @@ class Table:
         if type(keyName) is not str:
             raise TypeError("\n\n***{}*** -> must be a STRING\n\n".format(keyName))
 
+    # CHECK PATTERN #
 
     def _welcomePatternCheck(self, pattern):
         self._patternFollowPattern(pattern)
         self._primaryShouldBeAlone(pattern)
     
-    def _patternFollowPattern(self, pattern): # entry will be accepted only if it is in the accepted list
+    def _patternFollowPattern(self, pattern):
+        # entry will be accepted only if it is in the accepted list
         accepted = ['primary', 'type', 'length', 'compulsory']
         for key in pattern.keys():
             if key not in accepted:
                 raise KeyNotAccepted(key)
     
     def _primaryShouldBeAlone(self, pattern):
-        if 'primary' in pattern.keys(): # if primary key is given from add
+        if 'primary' in pattern.keys(): # if primary key is set from user entry -> checks has to be made
             if type(pattern['primary']) is not bool:
                 raise TypeError
             if pattern['primary'] == True: # if primary key given is set to True
@@ -125,10 +139,13 @@ class Table:
         else:
             pattern['primary'] = False
 
+# *******************************************************************
+
     ## SET PACKAGE ##
 
     def _setPattern(self, pattern, typeCurrent):
-        self._setType(pattern, typeCurrent) # check and set type from given pattern
+        # when pattern is not given (or partially), then we have to complete it
+        self._setType(pattern, typeCurrent)
         self._setCompulsory(pattern)
     
     def _setType(self, pattern, typeCurrent):
@@ -151,10 +168,14 @@ class Table:
         if not isPrimary:
             patron[idCurrent]['primary'] = True
 
-    ## SET WRITE BUILD ##
+# *******************************************************************
+
+    ## SET BUILD ##
 
     def _checkIdKeyExist(self, patron):
-        if 'id' in patron: # table should always have column 'id'
+        # table should always have column 'id'
+        # TODO if elif elif else could be improved with str.lower()
+        if 'id' in patron:
             idCurrent = 'id'
         elif 'ID' in patron:
             idCurrent = 'ID'
@@ -171,9 +192,9 @@ class Table:
     def _typeFormat(self, keyName):
         attr = ''
 
-        if self.patron[keyName]['type'] == 'serial':
+        if self.patron[keyName]['type'] == 'serial': # 'serial' is no type specific. This is why there is a single if
             attr = 'SERIAL'
-        elif self.patron[keyName]['type'].__name__ in pg_items_str.values():
+        elif self.patron[keyName]['type'].__name__ in pg_items_str.values(): # the rest is type specific. We can check in loop
             for key, value in pg_items_str.items():
                 if self.patron[keyName]['type'].__name__ == value:
                     attr = key # transform <type value> from sql into accepted <type> for python
@@ -182,8 +203,11 @@ class Table:
 
         return attr
 
+# *******************************************************************
 
     #### PUBLIC METHODS ####
+
+# *******************************************************************
 
     def add_varcharField(self, keyName, pattern={}):
         self._welcomeCheck(keyName, pattern)

@@ -4,6 +4,8 @@ from .insert import Insert
 from .manager import Manager
 from local_settings_user import local_set
 
+# *******************************************************************
+
 class Read:
     def __init__(self, table):
         self.table = table
@@ -17,8 +19,11 @@ class Read:
     def __str__(self):
         return self.table
 
+# *******************************************************************
 
     ### INTERN METHODS ###
+
+# *******************************************************************
 
     ## MANAGER DB ##
 
@@ -28,6 +33,7 @@ class Read:
         man.shutdown_manager()
         return answer
 
+# *******************************************************************
 
     ## CHECK PACKAGE ##
 
@@ -56,6 +62,8 @@ class Read:
     def _welcomeAttrsCheck(self, attrs): # TODO check the attrs (not definded yet but should be distinct, orderby, direction ...)
         pass
 
+# *******************************************************************
+
     ## CONTAINER BUILD ##
 
     def _createBuild(self, shows, entry, attrs):
@@ -68,7 +76,8 @@ class Read:
         }
         return containerBuild
     
-    def _alterEntry(self, entry): # if entry is a str, it should appear on query (name='jouet') and not (name=jouet)
+    def _alterEntry(self, entry):
+        # if entry is a str, it should appear on query (name='jouet') and not (name=jouet)
         entryMod = {}
         for key, value in entry.items():
             if isinstance(value, str):
@@ -77,7 +86,11 @@ class Read:
                 entryMod[key] = value
         return entryMod
 
+# *******************************************************************
+
     ### PUBLIC METHODS ###
+
+# *******************************************************************
 
     def find_filter(self, entry={}, shows=['*'], attrs={}):
         self._welcomeShowCheck(shows) # check if all item in list correspond to an column in database

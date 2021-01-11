@@ -4,6 +4,8 @@ from .manager import Manager
 from local_settings_user import local_set
 import datetime
 
+# *******************************************************************
+
 class Insert:
 
     def __init__(self, table):
@@ -18,8 +20,11 @@ class Insert:
     def __str__(self):
         return self.table
 
+# *******************************************************************
 
     ### INTERN METHODS ###
+
+# *******************************************************************
 
     ## MANAGER DB ##
 
@@ -28,6 +33,7 @@ class Insert:
         man.interact_up(phrase)
         man.shutdown_manager()
 
+# *******************************************************************
 
     ## CHECK PACKAGE ##
 
@@ -53,6 +59,8 @@ class Insert:
                 if key not in entry.keys():
                     raise CompulsoryEntry(key)
 
+# *******************************************************************
+
     ## CONTAINER BUILD ##
 
     def _createBuild(self, entry):
@@ -65,8 +73,11 @@ class Insert:
                     containerBuild[key] = entry[key]
         return containerBuild
 
+# *******************************************************************
 
     ### PUBLIC METHODS ###
+
+# *******************************************************************
 
     def write_ENTRY(self, entry):
         self._welcomeCheck(entry)

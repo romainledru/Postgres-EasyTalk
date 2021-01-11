@@ -9,6 +9,8 @@ from local_settings_user import local_set
 # The WHERE clause specifies which record(s) should be deleted.
 # If you omit the WHERE clause, all records in the table will be deleted!
 
+# *******************************************************************
+
 class Delete:
 
     def __init__(self, table):
@@ -23,8 +25,11 @@ class Delete:
     def __str__(self):
         return self.table
 
+# *******************************************************************
     
     ### INTERN METHODS ###
+
+# *******************************************************************
 
     ## MANAGER DB ##
 
@@ -33,6 +38,7 @@ class Delete:
         man.interact_up(phrase)
         man.shutdown_manager()
 
+# *******************************************************************
 
     ## CHECK PACKAGE ##
 
@@ -52,9 +58,12 @@ class Delete:
         if not isinstance(value, self.patron[key]['type']):
             raise TypeError("\n\n***{}: {}*** -> has a wrong Type !\n\n".format(key, value))
     
+# *******************************************************************
+
     ## CONTAINER BUILD ##
 
     def _alterEntry(self, entry):
+        # if entry is a str, it should appear on query (name='jouet') and not (name=jouet)
         entryMod = {}
         for key, value in entry.items():
             if isinstance(value, str):
@@ -63,7 +72,11 @@ class Delete:
                 entryMod[key] = value
         return entryMod
 
+# *******************************************************************
+
     ### PUBLIC METHODS ###
+
+# *******************************************************************
 
     def remove_filter(self, entry={}):
         self._welcomeCheck(entry) # check if entry follows format

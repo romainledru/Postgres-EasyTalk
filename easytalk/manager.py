@@ -28,10 +28,12 @@ class Manager:
         return answer
 
     def interact_up(self, phrase):
+        # write something in DB
         self.cursor.execute(phrase)
         self.connect.commit()
 
     def interact_down(self, phrase):
+        # read something in DB
         self.cursor.execute(phrase)
         answer = self.cursor.fetchall()
         return answer
