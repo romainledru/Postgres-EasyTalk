@@ -51,7 +51,7 @@ setup(
     install_requires=["psycopg2-binary"],
     entry_points={
         "console_scripts": [
-            "welcome=easytalk.__main__:main",
+            "credentials=easytalk.__main__:credentials",
         ]
     },
 )
