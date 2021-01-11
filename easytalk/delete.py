@@ -1,7 +1,7 @@
 from .table import Table
 from .manager import Manager
 from .exceptions_raise import *
-from local_settings_user import local_set
+#from local_settings_user import local_set
 
 # Note:
 # Be careful when deleting records in a table!

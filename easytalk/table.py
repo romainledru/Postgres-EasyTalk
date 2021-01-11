@@ -1,6 +1,6 @@
 from .exceptions_raise import *
 from .manager import Manager
-from local_settings_user import local_set
+#from local_settings_user import local_set
 from .nomenclatur import pg_items, pg_items_str
 import datetime
 
