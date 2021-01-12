@@ -255,6 +255,9 @@ class Table:
             if self.patron[key]['compulsory']: # compulsory attrs
                 if self.patron[key]['type'] != 'serial':
                     phrase += ' NOT NULL'
+            else:
+                if self.patron[key]['type'] == datetime.datetime: # trigger the default not compulsory datetime
+                    phrase += ' DEFAULT NOW()' # and allow default now() for 'automatic created_at'
             if self.patron[key]['primary']: # primary attrs
                 phrase += ' PRIMARY KEY'
             phrase += ', '
