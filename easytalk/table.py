@@ -66,7 +66,6 @@ class Table:
     def _extractPattern(self, answer, row):
         # check for definition of a label (column name) in table
         pattern = {}
-
         if answer[row][1] == 'NO':
             pattern['compulsory'] = False
             pattern['primary'] = True
