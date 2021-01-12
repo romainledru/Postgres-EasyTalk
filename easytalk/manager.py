@@ -36,6 +36,10 @@ class Manager:
         self.cursor.execute("SELECT column_name, is_nullable, data_type FROM information_schema.columns WHERE table_schema = 'public' AND table_name = '{}';".format(table))
         answer = self.cursor.fetchall()
         return answer
+    
+    def drop_table(self, table): # table is written as name_table (no 'name_table' or public.'name_table')
+        self.cursor.execute("DROP TABLE {}".format(table))
+        self.connect.commit()
 
     def interact_up(self, phrase):
         # write something in DB
@@ -47,7 +51,7 @@ class Manager:
         self.cursor.execute(phrase)
         answer = self.cursor.fetchall()
         return answer
-    
+
     def shutdown_manager(self):
         self.cursor.close()
         self.connect.close()

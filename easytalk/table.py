@@ -267,3 +267,8 @@ class Table:
 
         self._activeManager(phrase)
         print('CREATE succesfull')
+
+    def drop_TABLE(self):
+        man = Manager(self.db_name)
+        man.drop_table(self.tb_name)
+        man.shutdown_manager()
