@@ -70,3 +70,13 @@ class UnabletoConnect(Exception):
 
     def __str__(self):
         return f' \n\n ***{self.name}*** -> {self.message}\n\n'
+    
+
+class UnitError(Exception):
+    def __init__(self, name, message):
+        self.name = name
+        self.message = message
+        super().__init__(self.message)
+
+    def __str__(self):
+        return f' \n\n ***{self.name}*** -> {self.message}\n\n'

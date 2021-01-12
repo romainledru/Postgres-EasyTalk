@@ -1,5 +1,6 @@
 import pytest
 from easytalk import *
+from easytalk.exceptions_raise import UnitError
 
 ### TABLE ###
 
@@ -17,6 +18,35 @@ class Test_Table:
 
         if table in answer:
             assert True
+        
+    def test_create_containsId(self):
+
+        table = Table('easyTalk-db','tableTest')
+        table.write_TABLE()
+        tablePick = Table('easyTalk-db','tableTest')
+        try:
+            if 'id' in tablePick.patron:
+                assert True
+        except:
+            raise UnitError('id','not found in patron')
+        finally:
+            tablePick.drop_TABLE()
+
+    def test_create_addSerialId(self):
+
+        table = Table('easyTalk-db','tableTest')
+        table.add_serialField('id')
+        table.write_TABLE()
+
+        tablePick = Table('easyTalk-db','tableTest')
+        try:
+            if 'id' in tablePick.patron:
+                assert True
+        except:
+            raise UnitError('id','not found in patron')
+        finally:
+            tablePick.drop_TABLE()
+
 
 
 
