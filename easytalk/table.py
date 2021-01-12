@@ -66,14 +66,17 @@ class Table:
     def _extractPattern(self, answer, row):
         # check for definition of a label (column name) in table
         pattern = {}
-        if answer[row][1] == 'NO':
-            pattern['compulsory'] = False
+        if answer[row][0] == 'id':
             pattern['primary'] = True
-        elif answer[row][1] == 'YES':
-            pattern['compulsory'] = True
-            pattern['primary'] = False
+            pattern['compulsory'] = False
         else:
-            raise NameError("\n\n***{}*** -> compulsory output from DB not interpreted succesfully\n\n".format(answer[row][1]))
+            pattern['primary'] = False
+            if answer[row][1] == 'NO':
+                pattern['compulsory'] = True
+            elif answer[row][1] == 'YES':
+                pattern['compulsory'] = False
+            else:
+                raise NameError("\n\n***{}*** -> compulsory output from DB not interpreted succesfully\n\n".format(answer[row][1]))
 
         if answer[row][2] in pg_items.keys():
             for key, value in pg_items.items():
@@ -151,7 +154,7 @@ class Table:
     
     def _setCompulsory(self, pattern):
         if 'compulsory' not in pattern.keys():
-            pattern['compulsory'] = False
+            pattern['compulsory'] = True
         else:
             accepted = [True, False]
             if type(pattern['compulsory']) is not bool:
@@ -234,7 +237,7 @@ class Table:
 
         self.patron[keyName] = pattern
     
-    def add_datetimeField(self, keyName='datetime', pattern={}):
+    def add_datetimeField(self, keyName='datetime', pattern={'compulsory': False}):
         self._welcomeCheck(keyName, pattern)
         self._setPattern(pattern, datetime.datetime)
 
@@ -249,9 +252,9 @@ class Table:
             phrase += ' '
             typeFormat = self._typeFormat(key)
             phrase += typeFormat
-            #if self.patron[key]['compulsory']: # compulsory attrs
-            #    if self.patron[key]['type'] != 'serial':
-            #        phrase += ' NOT NULL'
+            if self.patron[key]['compulsory']: # compulsory attrs
+                if self.patron[key]['type'] != 'serial':
+                    phrase += ' NOT NULL'
             if self.patron[key]['primary']: # primary attrs
                 phrase += ' PRIMARY KEY'
             phrase += ', '
