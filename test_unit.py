@@ -1,6 +1,25 @@
 import pytest
-from easytalk.exceptions_raise import *
+from easytalk import *
 
+### TABLE ###
+
+class Test_Table:
+    
+    def test_create(self):
+
+        table = Table('easyTalk-db','tableTest')
+        table.write_TABLE()
+        tables = []
+        man = Manager('easyTalk-db')
+        answer = man.scan_database()
+        man.shutdown_manager()
+        if table in answer:
+            assert True
+        table.drop_TABLE() # delete table at the end of the test
+
+
+
+"""
 ### TABLE ###
 
 from easytalk.table import Table
@@ -76,3 +95,4 @@ class test_Select:
 
         answer = "SELECT name, buyORnot FROM tableTest WHERE (name='jouet') AND (price=35);"
         assert output == answer
+"""
