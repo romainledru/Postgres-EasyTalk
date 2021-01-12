@@ -1,6 +1,5 @@
 from .exceptions_raise import *
 from .manager import Manager
-#from local_settings_user import local_set
 from .nomenclatur import pg_items, pg_items_str
 import datetime
 
@@ -251,8 +250,9 @@ class Table:
             phrase += ' '
             typeFormat = self._typeFormat(key)
             phrase += typeFormat
-            if self.patron[key]['compulsory']: # compulsory attrs
-                phrase += ' NOT NULL'
+            #if self.patron[key]['compulsory']: # compulsory attrs
+            #    if self.patron[key]['type'] != 'serial':
+            #        phrase += ' NOT NULL'
             if self.patron[key]['primary']: # primary attrs
                 phrase += ' PRIMARY KEY'
             phrase += ', '
