@@ -2,7 +2,6 @@ from .exceptions_raise import *
 from .table import Table
 from .insert import Insert
 from .manager import Manager
-#from local_settings_user import local_set
 
 # *******************************************************************
 
