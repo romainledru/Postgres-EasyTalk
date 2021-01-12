@@ -13,9 +13,10 @@ class Test_Table:
         man = Manager('easyTalk-db')
         answer = man.scan_database()
         man.shutdown_manager()
+        table.drop_TABLE()
+
         if table in answer:
             assert True
-        table.drop_TABLE() # delete table at the end of the test
 
 
 
