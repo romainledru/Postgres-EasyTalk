@@ -321,3 +321,11 @@ class Test_Table:
             assert True
         else:
             raise UnitError(problemTag, 'error in pattern')
+
+
+# create tests with compulsory altered (change should be accepted)
+# create tests with primary altered
+    # with id (change should be refused)
+    # without id (change should be accepted)
+    # with id but later on (change should be accepted but there will be bugs)
+# create tests with type altered (should stay right type)
