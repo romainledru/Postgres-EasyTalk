@@ -322,8 +322,42 @@ class Test_Table:
         else:
             raise UnitError(problemTag, 'error in pattern')
 
+## ALTERED COMPULSORY ##
+    def test_create_compulsory_altered_pattern(self):
 
-# create tests with compulsory altered (change should be accepted)
+        nameId = 'bool1'
+        p = {
+            'compulsory': False
+        }
+        table = Table('easyTalk-db','tabletest')
+        table.add_booleanField(nameId, p)
+        table.write_TABLE()
+
+        tablePick = Table('easyTalk-db','tabletest')
+
+        pattern = {
+            'compulsory': False,
+            'primary': False,
+            'type': bool,
+        }
+        problemTag = ''
+        try:
+            for key, value in tablePick.patron[nameId].items():
+                if tablePick.patron[nameId][key] != pattern[key]:
+                    problemTag = '{},{}'.format(key, value)
+        except:
+            raise UnitError(problemTag, 'error in try')
+        finally:
+            tablePick.drop_TABLE()
+        
+        if problemTag == '':
+            assert True
+        else:
+            raise UnitError(problemTag, 'error in pattern')
+
+
+
+
 # create tests with primary altered
     # with id (change should be refused)
     # without id (change should be accepted)
