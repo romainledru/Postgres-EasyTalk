@@ -177,3 +177,51 @@ class Test_Table:
             assert True
         else:
             raise UnitError(problemTag, 'error in pattern')
+
+## TEST INT ##
+    def test_create_addInt(self):
+
+        nameId = 'int1'
+
+        table = Table('easyTalk-db','tabletest')
+        table.add_intField(nameId)
+        table.write_TABLE()
+        tablePick = Table('easyTalk-db','tabletest')
+        try:
+            if nameId not in tablePick.patron:
+                raise
+        except:
+            raise UnitError(nameId,'not found in patron')
+        finally:
+            tablePick.drop_TABLE()
+        
+        assert True # if no problems occurs until here
+
+    def test_create_int_pattern(self):
+
+        nameId = 'int1'
+        table = Table('easyTalk-db','tabletest')
+        table.add_intField(nameId)
+        table.write_TABLE()
+
+        tablePick = Table('easyTalk-db','tabletest')
+
+        pattern = {
+            'compulsory': True,
+            'primary': False,
+            'type': int,
+        }
+        problemTag = ''
+        try:
+            for key, value in tablePick.patron[nameId].items():
+                if tablePick.patron[nameId][key] != pattern[key]:
+                    problemTag = '{},{}'.format(key, value)
+        except:
+            raise UnitError(problemTag, 'error in try')
+        finally:
+            tablePick.drop_TABLE()
+        
+        if problemTag == '':
+            assert True
+        else:
+            raise UnitError(problemTag, 'error in pattern')
