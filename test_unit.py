@@ -486,3 +486,28 @@ class Test_Insert:
             assert True
         finally:
             table.drop_TABLE()
+        
+    def test_insert_wrongKey(self):
+
+        table = Table('easyTalk-db','tabletest')
+        table.add_varcharField('name')
+        table.add_intField('price')
+        table.add_booleanField('to_buy')
+        table.write_TABLE()
+        
+        tablePick = Table('easyTalk-db','tabletest')
+        insert = Insert(tablePick)
+        entry = {
+            'name': 'name1',
+            'price': 30,
+            'to_buy': True,
+            'hello_I_should_not_be_here': 10,
+        }
+
+        try:
+            insert.write_ENTRY(entry)
+            raise UnitError(entry, "should raise WrongEntry for 'hello_I_should_not_be_here', but didn't")
+        except WrongEntry:
+            assert True
+        finally:
+            table.drop_TABLE()
