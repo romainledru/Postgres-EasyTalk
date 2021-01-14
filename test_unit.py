@@ -462,3 +462,27 @@ class Test_Insert:
             assert True
         finally:
             table.drop_TABLE()
+
+    def test_insert_typeWrong(self):
+
+        table = Table('easyTalk-db','tabletest')
+        table.add_varcharField('name')
+        table.add_intField('price')
+        table.add_booleanField('to_buy') # bool is set as type=bool
+        table.write_TABLE()
+        
+        tablePick = Table('easyTalk-db','tabletest')
+        insert = Insert(tablePick)
+        entry = {
+            'name': 'name1',
+            'price': 30,
+            'to_buy': 10, # but bool is set as int for test
+        }
+
+        try:
+            insert.write_ENTRY(entry)
+            raise UnitError(entry, "should raise TypeError (type=int and should str) for 'name', but didn't")
+        except TypeError:
+            assert True
+        finally:
+            table.drop_TABLE()
