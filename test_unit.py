@@ -511,3 +511,29 @@ class Test_Insert:
             assert True
         finally:
             table.drop_TABLE()
+
+    def test_insert_doubleKey(self):
+
+        table = Table('easyTalk-db','tabletest')
+        table.add_varcharField('name')
+        table.add_intField('price')
+        table.add_booleanField('to_buy')
+        table.write_TABLE()
+        
+        tablePick = Table('easyTalk-db','tabletest')
+        insert = Insert(tablePick)
+        entry = {
+            'name': 'name1',
+            'price': 30,
+            'to_buy': True,
+            'price': 10,
+        }
+
+        try:
+            insert.write_ENTRY(entry)
+        except:
+            raise UnitError(entry, "should be ok to write the value twice for a key, but didn't")
+        finally:
+            table.drop_TABLE()
+
+        assert True
