@@ -74,8 +74,9 @@ i = Insert(table)
 entry = {
     'name': 'item3',
     'price': 345,
-    'datetime': datetime.datetime.now(),
     'to_buy': False,
+    #'datetime': datetime.datetime.now(),       -> Automatically added but can be overwritten
+    #'id': nextVar(),                           -> Automatically added but can be overwritten
 }
 i.write_ENTRY(entry)
 ```
