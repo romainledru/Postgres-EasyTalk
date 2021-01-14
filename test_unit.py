@@ -6,6 +6,26 @@ from easytalk.exceptions_raise import UnitError
 
 class Test_Table:
 
+    def test_create_phrase(self):
+
+        p = {
+            'compulsory': False,
+        }
+        table = Table('easyTalk-db','tabletest')
+        table.add_serialField()
+        table.add_datetimeField()
+        table.add_varcharField('name')
+        table.add_intField('price')
+        table.add_booleanField('to_buy', p)
+        table.write_TABLE()
+
+        ist = table.phrase_test_unit
+        soll = "CREATE TABLE tabletest (id SERIAL PRIMARY KEY, datetime timestamp with time zone DEFAULT NOW(), name text NOT NULL, price integer NOT NULL, to_buy boolean);"
+        
+        table.drop_TABLE()
+        
+        assert soll == ist
+
     def test_create(self):
 
         table = Table('easyTalk-db','tabletest')
