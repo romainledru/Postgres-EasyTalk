@@ -537,3 +537,20 @@ class Test_Insert:
             table.drop_TABLE()
 
         assert True
+
+
+class Test_Read:
+    # verify phrase
+    # verify filter with one key/value
+    # verify filter with two key/value
+    # verify filter with wrong key
+    # verify filter with wrong value
+    pass
+
+class Test_Delete: # one insert, one read, one delete, one read
+    # verify phrase
+    # verify one key/data
+    # verify two key/data
+    # verify falsch entry (as key)
+    # verify falsch data (as value)
+    pass
