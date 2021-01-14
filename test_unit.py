@@ -5,7 +5,7 @@ from easytalk.exceptions_raise import UnitError
 ### TABLE ###
 
 class Test_Table:
-    
+
     def test_create(self):
 
         table = Table('easyTalk-db','tabletest')
@@ -33,8 +33,7 @@ class Test_Table:
         finally:
             tablePick.drop_TABLE()
 
-
-## TEST SERIAL ##
+    ## TEST SERIAL ##
     def test_create_addSerialId(self):
 
         nameId = 'id'
@@ -82,7 +81,7 @@ class Test_Table:
         else:
             raise UnitError(problemTag, 'error in pattern')
 
-## TEST DATETIME ##
+    ## TEST DATETIME ##
     def test_create_addDatetime(self):
 
         nameId = 'created_at'
@@ -130,7 +129,7 @@ class Test_Table:
         else:
             raise UnitError(problemTag, 'error in pattern')
 
-## TEST VARCHAR ##
+    ## TEST VARCHAR ##
     def test_create_addVarchar(self):
 
         nameId = 'varchar1'
@@ -178,7 +177,7 @@ class Test_Table:
         else:
             raise UnitError(problemTag, 'error in pattern')
 
-## TEST INT ##
+    ## TEST INT ##
     def test_create_addInt(self):
 
         nameId = 'int1'
@@ -226,7 +225,7 @@ class Test_Table:
         else:
             raise UnitError(problemTag, 'error in pattern')
 
-## TEST FLOAT ##
+    ## TEST FLOAT ##
     def test_create_addFloat(self):
 
         nameId = 'float1'
@@ -274,7 +273,7 @@ class Test_Table:
         else:
             raise UnitError(problemTag, 'error in pattern')
 
-## TEST BOOL ##
+    ## TEST BOOL ##
     def test_create_addBool(self):
 
         nameId = 'bool1'
@@ -322,7 +321,7 @@ class Test_Table:
         else:
             raise UnitError(problemTag, 'error in pattern')
 
-## ALTERED COMPULSORY ##
+    ## ALTERED COMPULSORY ##
     def test_create_compulsory_altered_pattern(self):
 
         nameId = 'bool1'
@@ -355,7 +354,7 @@ class Test_Table:
         else:
             raise UnitError(problemTag, 'error in pattern')
 
-## ALTERED TYPE ##
+    ## ALTERED TYPE ##
     def test_create_type_altered_pattern(self):
 
         nameId = 'bool1'
@@ -387,10 +386,3 @@ class Test_Table:
             assert True
         else:
             raise UnitError(problemTag, 'error in pattern')
-
-
-# create tests with primary altered
-    # with id (change should be refused)
-    # without id (change should be accepted)
-    # with id but later on (change should be accepted but there will be bugs)
-# create tests with type altered (should stay right type)
