@@ -439,3 +439,26 @@ class Test_Insert:
         table.drop_TABLE()
         
         assert soll == ist
+
+    def test_insert_compulsoryMissing(self):
+
+        table = Table('easyTalk-db','tabletest')
+        table.add_varcharField('name') # 'name' is set as compulsory=True
+        table.add_intField('price')
+        table.add_booleanField('to_buy')
+        table.write_TABLE()
+        
+        tablePick = Table('easyTalk-db','tabletest')
+        insert = Insert(tablePick)
+        entry = { # 'name' is not given for the test
+            'price': 30,
+            'to_buy': True,
+        }
+
+        try:
+            insert.write_ENTRY(entry)
+            raise UnitError(entry, "should raise compulsory=True for 'name', but didn't")
+        except CompulsoryEntry:
+            assert True
+        finally:
+            table.drop_TABLE()
