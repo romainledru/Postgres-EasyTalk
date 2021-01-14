@@ -406,3 +406,36 @@ class Test_Table:
             assert True
         else:
             raise UnitError(problemTag, 'error in pattern')
+
+
+class Test_Insert:
+
+    def test_insert_phrase(self):
+
+        p = {
+            'compulsory': False,
+        }
+        table = Table('easyTalk-db','tabletest')
+        table.add_serialField()
+        table.add_datetimeField()
+        table.add_varcharField('name')
+        table.add_intField('price')
+        table.add_booleanField('to_buy')
+        table.add_booleanField('to_buy_nc', p)
+        table.write_TABLE()
+        
+        tablePick = Table('easyTalk-db','tabletest')
+        insert = Insert(tablePick)
+        entry = {
+            'name': 'name1',
+            'price': 30,
+            'to_buy': True,
+        }
+        insert.write_ENTRY(entry)
+        
+        ist = insert.phrase_test_unit
+        soll = "INSERT INTO tabletest (name, price, to_buy) VALUES ('name1', 30, True);"
+        
+        table.drop_TABLE()
+        
+        assert soll == ist
