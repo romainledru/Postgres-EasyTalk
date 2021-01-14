@@ -43,6 +43,11 @@ class Table:
 
 # *******************************************************************
 
+    ## UNIT TEST ##
+
+    def _test_unit_phrase(self, phrase):
+        self.phrase_test_unit = phrase
+
     ## MANAGER DB ##
 
     def _tableCheck(self):
@@ -264,6 +269,8 @@ class Table:
         phrase = phrase [:-2]
         phrase += ')'
         phrase += ';'
+        
+        self._test_unit_phrase(phrase)
 
         self._activeManager(phrase)
         print('CREATE succesfull')
@@ -272,3 +279,4 @@ class Table:
         man = Manager(self.db_name)
         man.drop_table(self.tb_name)
         man.shutdown_manager()
+        print('DROP succesfull')

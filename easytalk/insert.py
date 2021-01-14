@@ -25,6 +25,11 @@ class Insert:
 
 # *******************************************************************
 
+    ## UNIT TEST ##
+
+    def _test_unit_phrase(self, phrase):
+        self.phrase_test_unit = phrase
+
     ## MANAGER DB ##
 
     def _activeManager(self, phrase):
@@ -49,6 +54,9 @@ class Insert:
             raise WrongEntry(key)
     
     def _isTypeValueCorrect(self, key, value): # TODO with SERIAL: the type is no longer checked (str <-> str)
+        print(self.patron[key]['type'])
+        print(type(value))
+        print("*")
         if not isinstance(value, self.patron[key]['type']):
             raise TypeError("\n\n***{}: {}*** -> has a wrong Type !\n\n".format(key, value))
 
@@ -96,6 +104,8 @@ class Insert:
         phrase = phrase[:-2]
         phrase += ')'
         phrase += ';'
+
+        self._test_unit_phrase(phrase)
 
         self._activeManager(phrase)
         print("INSERT succesfull")
